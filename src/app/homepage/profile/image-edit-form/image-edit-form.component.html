@@ -1,0 +1,14 @@
+<div class="dialog-container">
+    <h2>Upload Profile Picture</h2>
+    <div class="image-preview" *ngIf="imageUrl">
+      <img [src]="imageUrl" alt="Profile Picture Preview">
+    </div>
+    <div class="upload-section">
+      <input type="file" (change)="onFileSelected($event)" accept="image/*" id="fileInput" hidden>
+      <label for="fileInput" class="upload-button">Choose Image</label>
+    </div>
+    <div class="actions">
+      <button mat-button (click)="onCancel()">Cancel</button>
+      <button mat-button (click)="onUpload()" [disabled]="!selectedFile">Upload</button>
+    </div>
+  </div>

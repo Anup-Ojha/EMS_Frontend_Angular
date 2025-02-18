@@ -1,0 +1,68 @@
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 25px;
+}
+
+.employee-card {
+  flex: 1 1 calc(33.333% - 20px); /* Adjust the width of the cards */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.detail-label {
+  font-weight: bold;
+}
+
+.detail-value {
+  color: #555;
+}
+
+
+.image-align{
+  padding: 0 0 0 50px;
+}
+
+/* mat-card-header{
+} */
+.example-form {
+  display: flex;
+  justify-content: flex-end;
+  /* padding-left: 52%; */
+}
+
+.form-container {
+  display: flex;
+  gap: 16px; /* Adjust the gap as needed */
+  align-items: center;
+}
+
+.example {
+  max-width: 210px;
+  padding-left: 10px;
+}
+
+.filter-sort-options {
+  display: flex;
+  text-align: center;
+  padding-top: 15px;
+  padding-right: 10px;
+}
+
+.example-button{
+  padding-left: 10px;
+  padding-top: 12px;
+}
+
+.example-button button {
+  background-color: #f0ad4e; /* Change this to your preferred color */
+  color: white; /* Ensures the text is readable */
+}
