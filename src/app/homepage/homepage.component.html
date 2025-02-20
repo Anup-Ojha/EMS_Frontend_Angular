@@ -4,7 +4,7 @@
   <!-- Sidebar -->
   <mat-drawer mode="side" [opened]="drawerOpened" role="navigation">
     <div class="menu-header">
-      <h1><b>AMS</b></h1>
+      <h1><b><a routerLink="/home" (click)="onClick()">AMS</a></b></h1>
     </div>
 
     <mat-nav-list>
@@ -38,7 +38,7 @@
 
   <mat-drawer-content>
     <div *ngIf="on">
-      <iframe src="../../assets/ppt.pdf" width="100%" height="660px" frameborder="0"></iframe>
+      <iframe src="../../assets/Final Task PPT.pdf" width="100%" height="660px" frameborder="0"></iframe>
     </div>
     <div *ngIf="!on">
       <router-outlet></router-outlet>

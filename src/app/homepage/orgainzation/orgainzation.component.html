@@ -13,9 +13,8 @@
                placeholder="Enter name..."
                aria-label="Search By Name"
                matInput
-               [(ngModel)]="searchValueInput"
-               (input)="onSearchText(searchValueInput)"
-               [formControl]="myControl"
+               [formControl]="myControl" 
+               (input)="onSearchText(myControl.value)" 
                [matAutocomplete]="auto">
         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
           <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
@@ -44,11 +43,12 @@
     <mat-card class="employee-card" *ngIf="searchText === '' || employee.firstName.toLowerCase().includes(searchText.toLowerCase()) || employee.lastName.toLowerCase().includes(searchText.toLowerCase())">
       <div *ngIf="selected==0  ||  employee.managerId == selected">
         <mat-card-header>
-          <span><img class="detail-value avatar image-align" src="../../../assets/user.png" alt="" width="150" height="150"></span>
-          <mat-card-title>{{ employee.firstName }}</mat-card-title><br>
-          <mat-card-title>{{ employee.lastName }}</mat-card-title>
+          <span>
+          </span>
+          <mat-card-title><b>{{ employee.firstName }} {{employee.lastName }}</b></mat-card-title>
         </mat-card-header>
         <mat-card-content>
+          <br>
           <div class="detail-row">
             <span class="detail-label">Employee ID:</span>
             <span class="detail-value">{{ employee.employeeId }}</span>

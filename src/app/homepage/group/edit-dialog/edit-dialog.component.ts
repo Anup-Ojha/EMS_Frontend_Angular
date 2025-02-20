@@ -1,11 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Employee } from 'src/app/model/employee';
-import { Leaves } from 'src/app/model/leaves';
-import { LeaveService } from 'src/app/services/leaves.service';
-import { GroupComponent } from '../group.component';
-import { Router } from '@angular/router';
+import { GroupLeaveService } from '../services/groupLeaves.service';
+import { Employee, Leaves } from '../model/groupModel';
 
 @Component({
   selector: 'app-edit-dialog',
@@ -18,7 +15,7 @@ export class EditDialogComponent {
     employee: Employee = JSON.parse(this.employeeString);
     employeesMainData: Employee = this.employee;
   myStaticLeaves:String[]=["Paid Leaves","Casual Leaves","Floater Leaves","Festive Leaves","Emergency Leaves"]
-  constructor(private router:Router,private fb: FormBuilder,private dialog: MatDialogRef<EditDialogComponent>,@Inject(MAT_DIALOG_DATA) public emp: Leaves,private leaveService:LeaveService) {
+  constructor(private fb: FormBuilder,private dialog: MatDialogRef<EditDialogComponent>,@Inject(MAT_DIALOG_DATA) public emp: Leaves,private leaveService:GroupLeaveService) {
       
     this.leaveUpdateForm = this.fb.group({
           leaveType: [emp.leaveType, Validators.required],
@@ -49,11 +46,9 @@ export class EditDialogComponent {
   
 
   deleteData(id:Number){
-    if(confirm('Are sure you want to delete this request ?')){
     this.leaveService.deleteEmployeeLeaveDetails(id).subscribe((res)=>{
       this.dialog.close()
     })
-  }
   }
 
 

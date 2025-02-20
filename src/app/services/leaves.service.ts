@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { inject, Injectable, OnInit } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import { Leaves } from "../model/leaves";
 import { StaticLeavesModel } from "../model/staticLeaves";
 import { MonthCount, WeekCount } from "../model/CalendarLogs";
@@ -24,7 +24,7 @@ export class LeaveService {
       }
     
     setEmployeeLeaves(data:Leaves){
-        return this.http.post(`${API_URL}/add`,data,{responseType: 'json'}).subscribe();
+        return this.http.post(`${API_URL}`,data,{responseType: 'json'}).subscribe();
     }
 
     getAllEmployeeLeavesData(id:Number){
@@ -45,24 +45,24 @@ export class LeaveService {
     }
 
     getAllUserLeaveCount(id:Number){
-      return this.http.get(`${API_URL}/count/${id}`);
+      return this.http.get(`${API_URL}/leaveCounts/${id}`);
     }
 
     getAllWeeksCount(id:Number){
-      return this.http.get<WeekCount[]>(`${API_URL}/weeks/${id}`);
+      return this.http.get<WeekCount[]>(`${API_URL}/weeksCount/${id}`);
     }
 
 
     getFilterYearData(startDate,endDate,id){
-      return this.http.get<MonthCount[]>(`${API_URL}/filterDateData/${startDate}/${endDate}/${id}`);
+      return this.http.get<MonthCount[]>(`${API_URL}/date-range/${startDate}/${endDate}/employee/${id}`);
     }
 
     updateEmployeeLeaveDetails(id:Number,data:Leaves){
-      return this.http.put(`${API_URL}/employee/update/${id}`,data);
+      return this.http.put(`${API_URL}/employee/${id}`,data);
     }
 
     deleteEmployeeLeaveDetails(id:Number){
-      return this.http.delete(`${API_URL}/employee/delete/${id}`);
+      return this.http.delete(`${API_URL}/employee/${id}`);
     }
 
 

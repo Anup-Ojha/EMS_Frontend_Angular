@@ -7,7 +7,8 @@ import { SharedMaterialModule } from 'src/app/shared/SharedMaterial.module';
 import { SharedModule } from 'src/app/shared/sharedcomponent.module';
 import { OrgainzationComponent } from './orgainzation.component';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from 'src/app/auth.guard';
+import { AuthGuard } from 'src/app/shared/authguard/auth.guard';
+import { OrganizationAllEmployees } from './services/organizationEmployee.service';
 
 const routes: Routes = [
   { path: '', component: OrgainzationComponent, canActivate: [AuthGuard]}
@@ -26,6 +27,7 @@ const routes: Routes = [
     HttpClientModule,
     SharedMaterialModule,
     SharedModule,
-  ]
+  ],
+  providers:[OrganizationAllEmployees]
 })
 export class OrgainzationModule { }

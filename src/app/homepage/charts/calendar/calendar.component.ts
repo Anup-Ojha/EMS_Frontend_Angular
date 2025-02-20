@@ -2,11 +2,11 @@ import {  CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { Component, inject, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { DailyAttendanceService } from 'src/app/services/DailyAttendanceLogs.service';
 import { CalanderLogs } from 'src/app/model/CalendarLogs';
 import { Employee } from 'src/app/model/employee';
-import { LeaveService } from 'src/app/services/leaves.service';
 import { Leaves, leavesCalendar } from 'src/app/model/leaves';
+import { ChartsDailyAttendanceService } from '../services/chartsDailyAttendance.service';
+import { CalendarLeaveService } from '../services/calendarLeaves.service';
 
 
 @Component({
@@ -17,8 +17,8 @@ import { Leaves, leavesCalendar } from 'src/app/model/leaves';
 
 export class CalendarComponent implements OnInit,OnChanges {
 
-  calendarService = inject(DailyAttendanceService);
-  leaveService = inject(LeaveService)
+  calendarService = inject(ChartsDailyAttendanceService);
+  calendarleaveService = inject(CalendarLeaveService)
   calendarOptions: CalendarOptions;
   calData:CalanderLogs[]=[];
   emplyeeString=localStorage.getItem('employee')
@@ -28,7 +28,7 @@ export class CalendarComponent implements OnInit,OnChanges {
 
   ngOnInit(): void {
 
-    this.leaveService.getAllEmployeeLeavesData(this.employeesMainData.employeeId).subscribe((data)=>{
+    this.calendarleaveService.getAllEmployeeLeavesData(this.employeesMainData.employeeId).subscribe((data)=>{
       let testLeaveCalData:Leaves[]=data;
 
       for(let i=0;i<testLeaveCalData.length;i++){
@@ -44,7 +44,6 @@ export class CalendarComponent implements OnInit,OnChanges {
 
       this.calendarService.getCalanderLogs(this.employeesMainData.employeeId).subscribe((data:any)=>{
         this.calData= data.map(([title, date]) => ({ title, date }));
-       // this.calData[this.calData.length+1].push({color:"red"})
         this.initializeCalendar();
       })
       this.initializeCalendar();
@@ -60,10 +59,20 @@ export class CalendarComponent implements OnInit,OnChanges {
         initialView: 'dayGridMonth',
         plugins: [dayGridPlugin, interactionPlugin],
         dateClick: this.handleDateClick.bind(this),
-        eventSources: [ this.leaveCalData,this.calData]
+        eventSources: [  {
+          events: this.leaveCalData.map(event => ({
+            ...event,
+            eventColor: 'red', 
+          }))
+        },
+        {
+          events: this.calData.map(event => ({
+            ...event,
+            eventColor: 'blue', 
+          }))
+        }]
       };
   }
-
 
   handleDateClick(arg) {
     alert('Date clicked: ' + arg.dateStr);

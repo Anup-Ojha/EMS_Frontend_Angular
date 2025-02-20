@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { RegisterService } from '../services/register.service';
-import { Employee } from '../model/employee';
+import { RegisterService } from '../../../services/register.service';
+import { Employee } from '../../../model/employee';
 
 @Component({
   selector: 'app-register',

@@ -1,14 +1,14 @@
-import { Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { Employee } from 'src/app/model/employee';
-import { LoginService } from 'src/app/services/loginhttp.service';
-import { Chart, registerables, scales } from 'chart.js';
-import { LeaveService } from 'src/app/services/leaves.service';
+import { LoginService } from 'src/app/services/loginHttp.service';
+import { Chart, registerables } from 'chart.js';
 import { LeaveCount } from 'src/app/model/LeaveDetailsCount';
 import { MonthCount, WeekCount } from 'src/app/model/CalendarLogs';
-import { EmployeeImageService } from 'src/app/services/EmployeeImage.service';
 import { ImageEditFormComponent } from './image-edit-form/image-edit-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { ProfileLeaveService } from './services/leaveService.service';
+import { ProfileAllEmployees } from './services/employeeService.service';
 Chart.register(...registerables);
 
 @Component({
@@ -42,16 +42,12 @@ export class ProfileComponent implements OnInit,OnDestroy {
   myImage:string='';
   myTimeStamp:string='';
 
-
-  
-  constructor(private router:Router,public dialog: MatDialog,private imageService: EmployeeImageService,private service: LoginService, private staticLeavesDataService: LeaveService) {}
+  constructor(private router:Router,public dialog: MatDialog,private service: LoginService, private staticLeavesDataService: ProfileLeaveService,private profileImageService:ProfileAllEmployees) {}
 
   ngOnInit() { 
     const employee: Employee = JSON.parse(this.employeeString);
     this.employee = employee; 
-    // console.log(this.employee);
     this.joiningDate=this.employee.hireDate;
-    // this.currentYear = this.currDate.getFullYear();
     this.getDatesArray();
     this.staticLeavesDataService.getAllStaticLeaves().subscribe((data) => {
       this.myStaticLeavesType = data.map(leave => leave.leaveType);
@@ -63,8 +59,6 @@ export class ProfileComponent implements OnInit,OnDestroy {
 
         if(this.dataForChart!=null){
             this.userTakenLeavesType=this.myStaticLeavesType.sort();
-            // this.userTakenLeavesType.push(this.dataForChart[i].type);
-            // console.log(this.dataForChart)
             for(let i=0;i<this.userTakenLeavesType.length;i++){
               this.userTakenLeaves[i]=0;
               for(let j=0;j<this.dataForChart.length;j++){
@@ -73,9 +67,6 @@ export class ProfileComponent implements OnInit,OnDestroy {
                 }
               }
             }
-            
-          // this.userTakenLeavesType.sort();
-          // this.userTakenLeaves.sort();  
       }
       })
 
@@ -90,12 +81,10 @@ export class ProfileComponent implements OnInit,OnDestroy {
       })
 
 
-      // this.polarArea('polarArea','polarArea',['Late','Half Day','Full Day'],[8,10,18])
       setTimeout(()=>{
         this.barChart('bar','bar',this.weeksLabelName,this.weeksCountValues,'Total Leaves Taken in Weeks in year');
         this.radarChart('radar','radar',this.myStaticLeavesType,this.myLeaveCount,this.userTakenLeaves);
         this.pieChart('doughnut', 'pieChart', this.userTakenLeavesType, this.userTakenLeaves);
-      // this.lineChart('bar','bar',this.weeksLabelName,this.weeksCountValues);
       this.loadImage();
       this.loading=false;
       },1000)  
@@ -119,7 +108,7 @@ export class ProfileComponent implements OnInit,OnDestroy {
             this.yearLabelName.push(this.yearWholeData[i].month);
           }
         }
-        let chartStatus = Chart.getChart("barChart"); // <canvas> id
+        let chartStatus = Chart.getChart("barChart"); 
             if (chartStatus != undefined) {
                chartStatus.destroy();
           }
@@ -132,7 +121,7 @@ export class ProfileComponent implements OnInit,OnDestroy {
   }
 
   loadImage(): void {
-    this.imageService.getImage(this.employee.employeeId).subscribe(
+    this.profileImageService.getImage(this.employee.employeeId).subscribe(
       (res: Blob) => {
 
         this.myImage = URL.createObjectURL(res);
@@ -141,11 +130,6 @@ export class ProfileComponent implements OnInit,OnDestroy {
         console.error('Error loading image:', error);
       }
     );
-
-    this.imageService.getImageUpdatedDate(this.employee.employeeId).subscribe((data:string)=>{
-      this.myTimeStamp=data;
-    })
-
   }
 
   getDatesArray(){
@@ -185,29 +169,6 @@ export class ProfileComponent implements OnInit,OnDestroy {
     this.chart = new Chart(canvasName, config);
   }
 
-
-  // polarArea(chartType: any, canvasName: any, labelValue: string[], dataValue: number[]){
-  //   const data = {
-  //     labels: labelValue,
-  //     datasets: [{
-  //       label: 'My First Dataset',
-  //       data: dataValue,
-  //       backgroundColor: [
-  //         'rgb(255, 99, 132)',
-  //         'rgb(75, 192, 192)',
-  //         'rgb(255, 205, 86)'
-  //       ]
-  //     }]
-  //   };
-
-  //   const config:any = {
-  //     type: chartType,
-  //     data: data    
-  //   };
-  //   this.chart= new Chart(canvasName,config);
-  // }
-
-
 radarChart(chartType: any, canvasName: any, labelValue?: String[], dataValue?: number[],userTakenLeaves?:Number[]){
 
 const data = {
@@ -243,7 +204,6 @@ const data = {
 
 
   barChart(chartType:any, canvasName: any, labelValue?: String[], dataValue?: Number[],datasetLabel?:String){
-    // const labels = Utils.months({count: 5});
   const data = {
   labels: labelValue,
   datasets: [{
@@ -281,25 +241,6 @@ const data = {
   this.chart=new Chart(canvasName,config);
   }
 
-// lineChart(chartType:any, canvasName: any, labelValue?: String[], dataValue?: Number[],userTakenLeaves?:Number[]){
-
-//   const data = {
-//     labels: labelValue,
-//     datasets: [{
-//       label: "Leaves Taken on Weeks",
-//       data: dataValue,
-//       borderColor: 'rgb(75, 192, 192)',
-//     }]
-//   };
-
-//   const config = {
-//     type: chartType,
-//     data: data,
-//   };
-//   this.chart=new Chart(canvasName,config);
-
-// }
-
 @Output() imageUpdate: EventEmitter<any> = new EventEmitter();
 
 openImageDialog(): void {
@@ -310,11 +251,8 @@ openImageDialog(): void {
 
   dialogRef.afterClosed().subscribe(result => {
       this.loadImage();
-      window.location.reload()
       }
     )}
-
-
 
     ngOnDestroy(): void {
       if (this.myImage) {

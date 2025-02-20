@@ -1,11 +1,9 @@
-import { AfterContentInit, AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControlName, FormGroup, Validators } from '@angular/forms';
+import { Component, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
-import { Chart } from 'chart.js';
 import { AttendaceLogs } from 'src/app/model/DailyAttendanceLogs';
-import { Employee } from 'src/app/model/employee';
-import { DailyAttendanceService } from 'src/app/services/DailyAttendanceLogs.service';
-import { LeaveService } from 'src/app/services/leaves.service';
+import { ChartsDailyAttendanceService } from '../services/chartsDailyAttendance.service';
+import { Employee } from '../model/chartsModel';
 
 @Component({
   selector: 'app-dailycharts',
@@ -24,14 +22,11 @@ export class DailychartsComponent {
   todaysDate=new Date();
 
   formatDateISO = (date) => {
-    // Convert the date to ISO string
     const isoString = date.toISOString();
-    // Split at the "T" character to get the date part
     const formattedDate = isoString.split("T")[0];
     return formattedDate.slice(0,10);
 };
 
-// Example usage
   currentDate = new Date();
   dataSource:AttendaceLogs[]=[];  
   getmonth=this.todaysDate.getMonth()+1;
@@ -57,7 +52,7 @@ displayTableData(){
     });
 }
 
-  constructor(private fb: FormBuilder,private staticLeavesData: LeaveService,private dailyAttendaceService:DailyAttendanceService) {
+  constructor(private fb: FormBuilder,private dailyAttendaceService:ChartsDailyAttendanceService) {
     this.loading=true
     const employee: Employee = JSON.parse(this.employeeString);
     this.employeesMainData = employee;

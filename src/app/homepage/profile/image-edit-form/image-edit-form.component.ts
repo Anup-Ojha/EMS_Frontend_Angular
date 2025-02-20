@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Employee } from 'src/app/model/employee';
-import { EmployeeImageService } from 'src/app/services/EmployeeImage.service';
+import { ProfileAllEmployees } from '../services/employeeService.service';
 
 @Component({
   selector: 'app-image-edit-form',
@@ -13,7 +13,7 @@ export class ImageEditFormComponent {
   selectedFile: File | null = null;
 
   constructor(
-    private imageService: EmployeeImageService,
+    private imageService: ProfileAllEmployees,
     public dialogRef: MatDialogRef<ImageEditFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { employee: Employee }
   ) {}
@@ -37,7 +37,6 @@ export class ImageEditFormComponent {
       this.imageService.uploadImage(this.data.employee.employeeId, this.selectedFile).subscribe(
         (response) => {
           this.dialogRef.close();
-          location.reload()
         },
         (error) => {
           console.error('Upload failed:', error);

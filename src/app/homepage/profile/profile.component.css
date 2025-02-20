@@ -89,7 +89,7 @@ hr {
 .top-content{
   min-width: 200px;
   display: flex;
-  margin-bottom: 160px;
+  margin-bottom: 120px;
 }
 .see-details{
   margin-top: 16px;
@@ -102,7 +102,7 @@ hr {
 }
 .image-card{
   align-items: center;
-  width: 240px;
+  width: 260px;
   border-radius: 1px;
   right: 0;
   margin-right: 25px;

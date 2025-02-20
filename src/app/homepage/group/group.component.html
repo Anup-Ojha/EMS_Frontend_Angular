@@ -15,12 +15,16 @@
 
       <mat-form-field appearance="fill">
         <mat-label>From Date</mat-label>
-        <input matInput type="text" formControlName="fromDate" required>
+        <input matInput type="text" formControlName="fromDate" [matDatepicker]="picker">
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
-
+      
       <mat-form-field appearance="fill">
         <mat-label>Till Date</mat-label>
-        <input matInput type="text" formControlName="tillDate" required>
+        <input matInput type="text" formControlName="tillDate" [matDatepicker]="picker2">
+        <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
       </mat-form-field>
 
       <mat-form-field appearance="fill">

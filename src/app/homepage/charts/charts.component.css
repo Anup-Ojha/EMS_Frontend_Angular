@@ -1,9 +1,65 @@
-.mat-button-toggle:active{
-  background-color:orange;
+.mat-button-toggle:active {
+  background-color: orange;
 }
 
-.notification-button{
-  position:absolute;
-  right: 80%;
-  left: 92%
+.notification-button {
+  position: absolute;
+  top: 20px;
+  right: 40px;
+}
+
+.example-sidenav {
+  height: 80%;
+  margin-top: 20px;
+  max-width: 400px; /* Set a specific width for better control */
+  background-color: #f4f4f4; /* Light gray background for the side nav */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Add subtle shadow for better separation */
+  border-radius: 8px 0 0 8px; /* Rounded corners on the left side */
+}
+
+
+.mat-toolbar {
+  background-color: #3f51b5; /* Change to a more distinct color */
+  color: white;
+  display: flex;
+  justify-content: space-between; /* Align title and close icon to opposite sides */
+  align-items: center; /* Vertically center the toolbar content */
+}
+
+.mat-toolbar button {
+  margin-left: auto; /* Moves the close icon to the far right */
+}
+
+.mat-list-item {
+  border-bottom: 1px solid #e0e0e0; /* Add separation between list items */
+  padding: 10px 15px;
+}
+
+.mat-list-item:hover {
+  background-color: #f1f1f1; /* Light hover effect for better interactivity */
+}
+
+.mat-list-item mat-icon {
+  color: #3f51b5; /* Match icon color with the toolbar */
+}
+
+.mat-list-item h4 {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.mat-list-item p {
+  font-size: 14px;
+  margin: 0;
+}
+
+.mat-list {
+  padding: 0;
+}
+
+
+.list-card{
+  margin-left: 10px;
+  margin-right: 10px;
 }

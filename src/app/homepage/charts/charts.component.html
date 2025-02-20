@@ -1,17 +1,35 @@
-
 <app-loader *ngIf="loading"></app-loader>
+
 <section>
     <mat-button-toggle-group aria-label="Font Style" (click)="onCalanderButtonClick()" multiple>
       <mat-button-toggle>Calander</mat-button-toggle>
     </mat-button-toggle-group>
-    <button mat-icon-button class="notification-button"> <mat-icon>add_alert</mat-icon></button>
+    <mat-drawer class="example-container" #drawer class="example-sidenav" position="end" autosize>
+      <mat-toolbar color="primary">Notifications  
+         <button mat-icon-button (click)="drawer.toggle()"> <mat-icon>close</mat-icon></button>  
+      </mat-toolbar>
+      <div  *ngFor="let notification of notifications">
+      <mat-list>
+            <div class="list-card">
+            <h4 ><b>{{notification.title}}</b></h4>
+            <p >{{notification.description}}</p>
+          </div>
+          <hr>
+
+      </mat-list>
+    </div>
+  </mat-drawer>
+    <button mat-icon-button class="notification-button" (click)="drawer.toggle()"> 
+      <mat-icon>add_alert</mat-icon>
+    </button>
+  
+
 </section>
 <hr>
 <br>
-<div *ngIf="!show" >
+<div *ngIf="!show">
     <app-calander></app-calander>
 </div>
-
 
 <app-dailycharts *ngIf="show"></app-dailycharts>
 <br>

@@ -2,17 +2,14 @@ import { AfterViewInit, Component, inject, OnInit, ViewChild } from '@angular/co
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
-import { pipe } from 'rxjs';
 import { Employee } from 'src/app/model/employee';
 import { FullLeaveObj, LeaveCount } from 'src/app/model/LeaveDetailsCount';
 import { Leaves } from 'src/app/model/leaves';
 import { StaticLeavesModel } from 'src/app/model/staticLeaves';
-import { LeaveService } from 'src/app/services/leaves.service';
-import { LoginService } from 'src/app/services/loginhttp.service';
 import { EditDialogComponent } from './edit-dialog/edit-dialog.component';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { AttendaceLogs } from 'src/app/model/DailyAttendanceLogs';
+import { MatDialog } from '@angular/material/dialog';
+import { GroupLeaveService } from './services/groupLeaves.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-group',
@@ -21,12 +18,11 @@ import { AttendaceLogs } from 'src/app/model/DailyAttendanceLogs';
 })
 export class GroupComponent implements OnInit, AfterViewInit {
   loading:boolean=true;
-  leaveService = inject(LeaveService);
+  leaveService = inject(GroupLeaveService);
   leaveForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private loginService: LoginService, private router: Router,private dialog: MatDialog) {}
+  constructor(private fb: FormBuilder,private dialog: MatDialog,private datePipe:DatePipe) {}
 
-  currentEmployee: Employee = this.loginService.getEmployeeData();
   employeeString: string = localStorage.getItem('employee');
   displayedColumns: string[] = ['Leave Type', 'From Date', 'Till Date', 'Status', 'Note','Action'];
   employee: Employee = JSON.parse(this.employeeString);
@@ -62,6 +58,9 @@ export class GroupComponent implements OnInit, AfterViewInit {
   leaveData: Leaves;
   onSubmit(): void {
     if (this.leaveForm.valid) {
+      const formData = { ...this.leaveForm.value };
+      formData.fromDate = this.datePipe.transform(formData.fromDate, 'yyyy-MM-dd');
+      formData.tillDate = this.datePipe.transform(formData.tillDate, 'yyyy-MM-dd');
       this.leaveData = this.leaveForm.value;
       this.leaveService.setEmployeeLeaves(this.leaveData);
     }
@@ -123,8 +122,6 @@ export class GroupComponent implements OnInit, AfterViewInit {
   })
   }
 
-
-
   showDialog(emp:Leaves){
     this.dialog.open(EditDialogComponent,{
       width: '550px',
@@ -132,7 +129,6 @@ export class GroupComponent implements OnInit, AfterViewInit {
       data:emp,
     });
     this.dialog.afterAllClosed.subscribe((res)=>{
-      console.log(res)
         this.ngOnInit();
     })
   }

@@ -2,8 +2,8 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms'; // Import Validators
 import { Router } from '@angular/router';
 import { LoginCredentials } from 'src/app/model/loginCredentials';
-import { LoginService } from 'src/app/services/loginhttp.service';
-import { Employee } from '../model/employee';
+import { LoginService } from 'src/app/services/loginHttp.service';
+import { Employee } from '../../model/employee';
 import { HttpHeaders, HttpClient } from '@angular/common/http'; // Import HttpClient and HttpHeaders
 
 interface LoginResponse {  // Define the LoginResponse interface

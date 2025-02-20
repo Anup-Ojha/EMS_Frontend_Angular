@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { MatIconRegistry } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { Employee } from '../model/employee';
-import { EmployeeImageService } from '../services/EmployeeImage.service';
+import { EmployeeImageService } from '../services/employeeImage.service';
 
 
 
@@ -20,13 +19,16 @@ export class HomepageComponent {
 
   on=true;
 
-  constructor(iconRegistry: MatIconRegistry, private router:Router,private imageService:EmployeeImageService) {
+  constructor( private router:Router,private imageService:EmployeeImageService) {
     this.loading=true
-
     this.loadImage()
     this.loading=false
-
   }
+
+  onClick(){
+    this.on=true
+  }
+
     drawerOpened = true; // Initially open
     dataEmp=localStorage.getItem('employee');
     employee: Employee = JSON.parse(this.dataEmp);
@@ -61,7 +63,6 @@ export class HomepageComponent {
     loadImage(): void {
       this.imageService.getImage(this.employee.employeeId).subscribe(
         (res: Blob) => {
-          // Convert the Blob to a URL
           this.myImage = URL.createObjectURL(res);
         },
         (error) => {

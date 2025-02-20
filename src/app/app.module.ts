@@ -7,19 +7,19 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 // Services
-import { LoginService } from './services/loginhttp.service';
+import { LoginService } from './services/loginHttp.service';
 import { LeaveService } from './services/leaves.service';
-import { DailyAttendanceService } from './services/DailyAttendanceLogs.service';
-import { AllEmployees } from './services/AllEmployees.service';
+import { DailyAttendanceService } from './services/dailyAttendanceLogs.service';
 
-import { AuthInterceptor } from './interceptors/auth.service';
+import { AuthInterceptor } from './shared/interceptors/auth.service';
 import { HomepageModule } from './homepage/homepage.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
-import { LogoutComponent } from './logout/logout.component';
-import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './core/login/login.component';
+import { LogoutComponent } from './core/login/logout/logout.component';
+import { RegisterComponent } from './core/login/register/register.component';
 import { SharedMaterialModule } from './shared/SharedMaterial.module';
 import { SharedModule } from './shared/sharedcomponent.module';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 const myroutes: Routes = [
   { path: '', component: LoginComponent },
@@ -46,14 +46,14 @@ const myroutes: Routes = [
     CommonModule,
     HomepageModule,
     SharedMaterialModule,
-    SharedModule
+    SharedModule,
+    FullCalendarModule
   ],
   providers: [
     LoginService,
     LeaveService,
-    AllEmployees,
     DailyAttendanceService,
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+   { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-const API_URL = 'http://localhost:8080/employee/image'; 
+const API_URL = 'http://localhost:8080/image'; 
 
 @Injectable({
   providedIn: 'root'
@@ -22,12 +22,6 @@ export class EmployeeImageService {
 
   getImage(employeeId: Number): Observable<Blob> {
     return this.http.get(`${API_URL}/${employeeId}`, { responseType: 'blob' });
-  }
-
-  
-
-  getImageUpdatedDate(employeeId: Number) {
-    return this.http.get(`${API_URL}/upload/date/${employeeId}`);
   }
 
 }

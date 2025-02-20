@@ -1,10 +1,7 @@
 import { HttpClient } from "@angular/common/http";
-import { inject, Injectable, OnInit } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import { AttendaceLogs } from "../model/DailyAttendanceLogs";
-import { Observable } from "rxjs";
-import { CalanderLogs } from "../model/CalendarLogs";
-import { Employee } from "../model/employee";
-import { Calendar } from "@fullcalendar/core";
+
 const API_URL="http://localhost:8080/attendance"
 @Injectable()
 export class DailyAttendanceService {
@@ -16,7 +13,7 @@ export class DailyAttendanceService {
     }
 
     setDailyAttendance(data:AttendaceLogs){
-        return this.http.post(`${API_URL}/mark`,data);
+        return this.http.post(`${API_URL}`,data);
     }
 
     getCalanderLogs(id:Number){

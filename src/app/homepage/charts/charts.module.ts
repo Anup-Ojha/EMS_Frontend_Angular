@@ -9,8 +9,12 @@ import { ChartsComponent } from './charts.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { DailychartsComponent } from './dailycharts/dailycharts.component';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from 'src/app/auth.guard';
+import { AuthGuard } from 'src/app/shared/authguard/auth.guard';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { ChartsDailyAttendanceService } from './services/chartsDailyAttendance.service';
+import { CalendarLeaveService } from './services/calendarLeaves.service';
+import { MatToolbarModule } from '@angular/material/toolbar';
+
 
 const routes: Routes = [
   { path: '', component: ChartsComponent, canActivate: [AuthGuard]}
@@ -30,8 +34,10 @@ const routes: Routes = [
     FormsModule,
     HttpClientModule,
     SharedMaterialModule,
+    MatToolbarModule,
     SharedModule,
-    FullCalendarModule 
-  ]
+    FullCalendarModule
+  ],
+  providers:[ChartsDailyAttendanceService,CalendarLeaveService]
 })
 export class ChartsModule { }
