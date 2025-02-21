@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RegisterService } from '../../../services/register.service';
-import { Employee } from '../../../model/employee';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-register',
@@ -11,8 +11,9 @@ import { Employee } from '../../../model/employee';
 })
 export class RegisterComponent implements OnInit {
   singleForm: FormGroup;
+  
 
-  constructor(private fb: FormBuilder, private registerService: RegisterService, private router: Router) {}
+  constructor(private datePipe:DatePipe,private fb: FormBuilder, private registerService: RegisterService, private router: Router) {}
 
   ngOnInit(): void {
     this.singleForm = this.fb.group({
@@ -38,15 +39,6 @@ export class RegisterComponent implements OnInit {
           departmentName: ['', Validators.required],
         })
       ]),
-      leavesDetails: this.fb.array([
-        this.fb.group({
-          leaveType: ['', Validators.required],
-          fromDate: ['', Validators.required],
-          tillDate: ['', Validators.required],
-          note: ['', Validators.required],
-          status:['Approved', Validators.required]
-        })
-      ]),
       assetsDetails: this.fb.array([
         this.fb.group({
           assetName: ['', Validators.required],
@@ -64,9 +56,6 @@ export class RegisterComponent implements OnInit {
     return this.singleForm.get('departmentDetails') as FormArray;
   }
 
-  get leavesDetails(): FormArray {
-    return this.singleForm.get('leavesDetails') as FormArray;
-  }
 
   get assetsDetails(): FormArray {
     return this.singleForm.get('assetsDetails') as FormArray;
@@ -88,16 +77,6 @@ export class RegisterComponent implements OnInit {
     }));
   }
 
-  addLeaveDetail() {
-    this.leavesDetails.push(this.fb.group({
-      leaveType: ['', Validators.required],
-      fromDate: ['', Validators.required],
-      tillDate: ['', Validators.required],
-      note: ['', Validators.required],
-      status:['Approved',Validators.required]
-    }));
-  }
-
   addAssetDetail() {
     this.assetsDetails.push(this.fb.group({
       assetName: ['', Validators.required],
@@ -107,8 +86,9 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(): void {
     if (this.singleForm.valid) {
-      const formData = this.singleForm.value;
-      console.log(formData);
+      const formData = { ...this.singleForm.value };
+      formData.fromDate = this.datePipe.transform(formData.fromDate, 'yyyy-MM-dd');
+      formData.tillDate = this.datePipe.transform(formData.tillDate, 'yyyy-MM-dd');
       this.registerService.registerEmployee(formData).subscribe(response => {
         this.router.navigate(['/login']);
       });

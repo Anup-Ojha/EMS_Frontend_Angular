@@ -251,6 +251,7 @@ openImageDialog(): void {
 
   dialogRef.afterClosed().subscribe(result => {
       this.loadImage();
+      
       }
     )}
 

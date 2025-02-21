@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { GroupLeaveService } from '../services/groupLeaves.service';
 import { Employee, Leaves } from '../model/groupModel';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-edit-dialog',
@@ -14,8 +15,10 @@ export class EditDialogComponent {
   employeeString: string = localStorage.getItem('employee');
     employee: Employee = JSON.parse(this.employeeString);
     employeesMainData: Employee = this.employee;
+  todayDate:Date = new Date();
+
   myStaticLeaves:String[]=["Paid Leaves","Casual Leaves","Floater Leaves","Festive Leaves","Emergency Leaves"]
-  constructor(private fb: FormBuilder,private dialog: MatDialogRef<EditDialogComponent>,@Inject(MAT_DIALOG_DATA) public emp: Leaves,private leaveService:GroupLeaveService) {
+  constructor(private fb: FormBuilder,private datePipe:DatePipe,private dialog: MatDialogRef<EditDialogComponent>,@Inject(MAT_DIALOG_DATA) public emp: Leaves,private leaveService:GroupLeaveService) {
       
     this.leaveUpdateForm = this.fb.group({
           leaveType: [emp.leaveType, Validators.required],
@@ -34,6 +37,9 @@ export class EditDialogComponent {
   onSubmit(){
     if (this.leaveUpdateForm.valid) {
     let leaveData: Leaves;
+    const formData = { ...this.leaveUpdateForm.value };
+    formData.fromDate = this.datePipe.transform(formData.fromDate, 'yyyy-MM-dd');
+    formData.tillDate = this.datePipe.transform(formData.tillDate, 'yyyy-MM-dd');
       leaveData = this.leaveUpdateForm.value;
       this.leaveService.updateEmployeeLeaveDetails(leaveData.id,leaveData).subscribe((res)=>{
       });

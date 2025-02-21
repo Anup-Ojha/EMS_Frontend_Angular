@@ -72,6 +72,9 @@ displayTableData(){
     });
     this.loading=false
 
+    this.displayTableData()
+
+
   }
 
   submitForm() {
@@ -79,6 +82,9 @@ displayTableData(){
     setTimeout(()=>{
       this.displayTableData()
     },1000); 
+    this.displayTableData()
+    this.displayTableData()
+
   }
  
   

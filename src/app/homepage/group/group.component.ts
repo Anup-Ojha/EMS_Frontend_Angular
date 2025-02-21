@@ -20,7 +20,7 @@ export class GroupComponent implements OnInit, AfterViewInit {
   loading:boolean=true;
   leaveService = inject(GroupLeaveService);
   leaveForm: FormGroup;
-
+  todayDate:Date = new Date();
   constructor(private fb: FormBuilder,private dialog: MatDialog,private datePipe:DatePipe) {}
 
   employeeString: string = localStorage.getItem('employee');
@@ -75,10 +75,7 @@ export class GroupComponent implements OnInit, AfterViewInit {
         employeeId: [this.employeesMainData.employeeId, Validators.required]
       })
     });
-    this.getAllStaticLeaves();
-    this.fetchLeaveDetails();
-    this.fetchLeaveDetails();
-    this.getAllStaticLeaves();
+ 
 
 
   }

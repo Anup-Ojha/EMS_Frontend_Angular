@@ -1,5 +1,5 @@
 
-<h2>Employee Registration Form</h2>
+<h1><b>Employee Registration Form</b></h1>
 
 <div class="form-alignment">
   <form [formGroup]="singleForm" (ngSubmit)="onSubmit()">
@@ -14,10 +14,14 @@
           <mat-label>Last Name</mat-label>
           <input matInput placeholder="Last name" formControlName="lastName" required>
         </mat-form-field>
-        <mat-form-field class="width">
+
+        <mat-form-field  class="width">
           <mat-label>Date Of Birth</mat-label>
-          <input matInput placeholder="Date of Birth" formControlName="dateOfBirth" required>
+          <input matInput type="text" formControlName="dateOfBirth" [matDatepicker]="picker">
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
+
         <mat-form-field class="width">
           <mat-label>Manager Id</mat-label>
           <input matInput placeholder="Manager Id" formControlName="managerId" required>
@@ -34,10 +38,14 @@
           <mat-label>Password</mat-label>
           <input matInput placeholder="Password" formControlName="password" required>
         </mat-form-field>
-        <mat-form-field class="width">
+
+        <mat-form-field  class="width">
           <mat-label>Date Of Joining</mat-label>
-          <input matInput placeholder="Date of Joining" formControlName="hireDate" required>
+          <input matInput type="text" formControlName="hireDate" [matDatepicker]="picker1" required>
+          <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
         </mat-form-field>
+
         <div>
           <button type="button" mat-button matStepperNext>Next</button>
         </div>
@@ -82,39 +90,7 @@
         </div>
       </mat-step>
       <mat-step [stepControl]="singleForm">
-        <ng-template matStepLabel>Assets and Leave Details</ng-template>
-        <div formArrayName="leavesDetails">
-          <div *ngFor="let leave of leavesDetails.controls; let i = index" [formGroupName]="i">
-            <mat-form-field class="width">
-              <mat-label>Leave Type</mat-label>
-              <!-- <input matInput placeholder="Leave Type" formControlName="leaveType" required> -->
-              <mat-select formControlName="leaveType"> 
-                <mat-option value="Paid Leaves">Paid Leave</mat-option>
-                <mat-option value="Casual Leaves">Casual Leave</mat-option>
-                <mat-option value="Floater Leaves">Floater Leave</mat-option>
-                <mat-option value="Festive Leaves">Festive Leave</mat-option>
-                <mat-option value="Emergency Leaves">Emergency Leave</mat-option>
-              </mat-select>
-
-            </mat-form-field>
-            <mat-form-field class="width">
-              <mat-label>From Date</mat-label>
-              <input matInput placeholder="From Date" formControlName="fromDate" required>
-            </mat-form-field>
-            <mat-form-field class="width">
-              <mat-label>To Date</mat-label>
-              <input matInput placeholder="To Date" formControlName="tillDate" required>
-            </mat-form-field>
-            <mat-form-field class="width">
-              <mat-label>Note / reason</mat-label>
-              <input matInput placeholder="Note / reason" formControlName="note" required>
-            </mat-form-field>
-            <mat-form-field class="width">
-              <mat-label>Status of Request</mat-label>
-              <input matInput placeholder="Status of Request" formControlName="status" required>
-            </mat-form-field>
-          </div>
-        </div>
+        <ng-template matStepLabel>Assets Details</ng-template>
         <div formArrayName="assetsDetails">
           <div *ngFor="let asset of assetsDetails.controls; let i = index" [formGroupName]="i">
             <mat-form-field class="width">

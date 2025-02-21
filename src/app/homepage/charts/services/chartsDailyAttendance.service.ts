@@ -1,6 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable, OnInit } from "@angular/core";
 import { AttendaceLogs } from "../model/chartsModel";
+import { Observable } from "rxjs";
+import { CalanderLogs } from "src/app/model/CalendarLogs";
 const API_URL="http://localhost:8080/attendance"
 @Injectable()
 export class ChartsDailyAttendanceService {

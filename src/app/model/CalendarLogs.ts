@@ -1,5 +1,5 @@
 export interface CalanderLogs{
-    timeStamp:String
+    timeStamp?:String
     date:Date
 }
 
